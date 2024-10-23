@@ -1,16 +1,27 @@
 TITLE Batalha Naval - Projeto Final
-.stack 0100h
 .MODEL SMALL
+.stack 0100h
 .DATA
-      VETOR DB 10 DUP (0)
+      MATRIZ DW 0,0,0,0,0,0,1,1,1,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 0,0,1,0,0,0,0,1,0,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 0,0,1,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 0,0,0,0,0,0,0,1,0,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 0,0,0,0,0,0,0,1,1,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 0,0,0,0,0,0,0,1,0,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 1,1,1,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 0,0,0,0,0,1,1,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+             DW 1,1,1,1,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+
+      VETOR  DB 10 DUP (0)
 .CODE
 MAIN PROC
       ;Acesso ao DATA
-            MOV  AX, @DATA
-            MOV  DS,AX
+           MOV AX, @DATA
+           MOV DS,AX
 
       ;Termina o programa
-            MOV  AH,4CH
-            INT  21H
+           MOV AH,4CH
+           INT 21H
 MAIN ENDP
 END MAIN
