@@ -14,7 +14,6 @@ MAIN PROC
               MOV  AX,@DATA
               MOV  DS,AX
 
-
     ;Preparação para o LOOP Ler:
               XOR  SI,SI           ;Inicializando SI
               MOV  CX, 7           ;Contador de vezes (Equivalente o número de elementos)
