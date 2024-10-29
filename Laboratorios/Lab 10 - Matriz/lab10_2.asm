@@ -30,11 +30,11 @@ MAIN PROC
                  LEA        DX, NMATRIZ
                  MOV        AH,09
                  INT        21H
-                 CALL       PRINTM                               ;Leva até a subrotina "PRINTM" para impressão do VETOR, nesse caso, apenas exibindo o vetor inserido;
+                 CALL       PRINTM                ;Leva até a subrotina "PRINTM" para impressão do VETOR, nesse caso, apenas exibindo o vetor inserido;
                  CALL       SOMARM
 
     ;Fim do Programa
-                 MOV        AH,4CH                               ; termina o programa
+                 MOV        AH,4CH                ; termina o programa
                  INT        21H
 
 MAIN ENDP
@@ -52,7 +52,7 @@ LERMATRIZ PROC
                  INT        21h
                  MOV        DL,AL
     ;Coloca o valor inserido no vetor em seu respetivo elemento
-                 MOV        MATRIZ[SI][BX],DL                    ; coloca o elemento MATRIZ
+                 MOV        MATRIZ[SI][BX],DL     ; coloca o elemento MATRIZ
     ;CMP        MATRIZ[SI][BX],6
     ;JG         TenteN
                  INC        BX
@@ -64,11 +64,11 @@ LERMATRIZ PROC
     ;pula_linha
     ;JMP        Lerlinha
 
-                 XOR        BX, BX                               ; zera o índice da coluna
-                 ADD        SI, 4                                ; Muda a linha
-                 MOV        CX,4                                 ;Volta o valor de cx para o loop
-                 CMP        SI,12                                ; Compara com o numero maximo de linhas se maior
-                 pula_linha                                      ;Macro pula linha
+                 XOR        BX, BX                ; zera o índice da coluna
+                 ADD        SI, 4                 ; Muda a linha
+                 MOV        CX,4                  ;Volta o valor de cx para o loop
+                 CMP        SI,12                 ; Compara com o numero maximo de linhas se maior
+                 pula_linha                       ;Macro pula linha
                  JBE        Lerlinha
                  RET
 LERMATRIZ ENDP
@@ -76,23 +76,23 @@ PRINTM PROC
     ;Imprime o vetor que foi inserido depois o invertido
     ;Entrada da varivel matriz
     ;Não há saida
-                 XOR        SI, SI                               ; zera o índice da linha
-                 XOR        BX, BX                               ; zera o índice da coluna
+                 XOR        SI, SI                ; zera o índice da linha
+                 XOR        BX, BX                ; zera o índice da coluna
                  MOV        CX,4
                  MOV        AH, 02H
     IMPRIMELINHA:
-                 MOV        DL, MATRIZ[SI][BX]                   ; coloca o elemento MATRIZ4X4[0,0] em AL
-                 OR         DL,30H                               ; nUmero em caractere
+                 MOV        DL, MATRIZ[SI][BX]    ; coloca o elemento MATRIZ4X4[0,0] em AL
+                 OR         DL,30H                ; nUmero em caractere
                  INT        21H
                  INC        BX
                  LOOP       IMPRIMELINHA
 
-                 XOR        BX, BX                               ; zera o índice da coluna
-                 ADD        SI, 4                                ; Muda a linha
-                 MOV        CX,4                                 ;Volta o valor de cx para o loop
-                 CMP        SI,12                                ; Compara com o numero maximo de linhas se maior
+                 XOR        BX, BX                ; zera o índice da coluna
+                 ADD        SI, 4                 ; Muda a linha
+                 MOV        CX,4                  ;Volta o valor de cx para o loop
+                 CMP        SI,12                 ; Compara com o numero maximo de linhas se maior
 
-                 pula_linha                                      ;Macro pula linha
+                 pula_linha                       ;Macro pula linha
                  JBE        IMPRIMELINHA
                  RET
 PRINTM ENDP
@@ -104,33 +104,52 @@ SOMARM PROC
                  MOV        CX,4
 
     SOMAELEMEN:  
-                 MOV        AL, MATRIZ[SI][BX]                   ; coloca o elemento MATRIZ4X4[0,0] em AL
+                 MOV        AL, MATRIZ[SI][BX]    ; coloca o elemento MATRIZ4X4[0,0] em AL
                  SUB        AL,30H
                  ADD        DL,AL
                  INC        BX
                  LOOP       SOMAELEMEN
 
-                 OR         DL,30H                               ; nUmero em caractere
-                 MOV        AH, 02H
-                 INT        21H                 
+    ;OR         DL,30H                               ; nUmero em caractere
+    ;MOV        AH, 02H
+    ;INT        21H
                  
                  PUSH       DX
-                 XOR DX,DX
-                 XOR        BX, BX                               ; zera o índice da coluna
-                 ADD        SI, 4                                ; Muda a linha
-                 MOV        CX,4                                 ;Volta o valor de cx para o loop
-                 CMP        SI,12                                ; Compara com o numero maximo de linhas se maior
-                 
-                 
-
-                 pula_linha                                      ;Macro pula linha
-
+                 XOR        DX,DX
+                 XOR        BX, BX                ; zera o índice da coluna
+                 ADD        SI, 4                 ; Muda a linha
+                 MOV        CX,4                  ;Volta o valor de cx para o loop
+                 CMP        SI,12                 ; Compara com o numero maximo de linhas se maior
                  JBE        SOMAELEMEN
+                 MOV        CX,4
+
+    SOMACOLUNA:  
+
+                 POP        AX
+                 ADD        DX,AX
+                 LOOP       SOMACOLUNA
+                 JMP COMPAR
+
+ IMPRESTMENOR:   OR         DL,30H                ; nUmero em caractere
+                 MOV        AH, 02H
+                 INT        21H
+COMPAR:
+                 CMP        DX, 10
+                 JBE        IMPRESTMENOR
+                 MOV        AX,10
+                 DIV        DX
+
+                 MOV AH,DH
+                 OR         DL,30H                ; nUmero em caractere
+                 MOV        AH, 02H
+                 INT        21H
+
+                 MOV AL,DL
+                 OR         DL,30H                ; nUmero em caractere
+                 MOV        AH, 02H
+                 INT        21H
                  
 
-
-                
-    ;PUSH       AX
                  RET
                  
 
