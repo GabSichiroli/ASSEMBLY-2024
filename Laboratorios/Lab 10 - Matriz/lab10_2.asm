@@ -128,28 +128,21 @@ SOMARM PROC
                  POP        AX
                  ADD        DX,AX
                  LOOP       SOMACOLUNA
-                 JMP COMPAR
+                 JMP        COMPAR
 
- IMPRESTMENOR:   OR         DL,30H                ; nUmero em caractere
+    IMPRESTMENOR:OR         DL,30H                ; nUmero em caractere
                  MOV        AH, 02H
                  INT        21H
-COMPAR:
+                 JMP        RETORNA
+    COMPAR:      
                  CMP        DX, 10
                  JBE        IMPRESTMENOR
-                 MOV        AX,10
-                 DIV        DX
 
-                 MOV AH,DH
-                 OR         DL,30H                ; nUmero em caractere
-                 MOV        AH, 02H
-                 INT        21H
-
-                 MOV AL,DL
-                 OR         DL,30H                ; nUmero em caractere
+                 ;OR         DL,30H                ; nUmero em caractere
                  MOV        AH, 02H
                  INT        21H
                  
-
+    RETORNA:     
                  RET
                  
 

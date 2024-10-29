@@ -1,0 +1,5 @@
+Ler caracter:
+
+OR         DL,30H                ; nUmero em caractere
+MOV        AH, 02H
+INT        21H
