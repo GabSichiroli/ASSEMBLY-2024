@@ -1,0 +1,79 @@
+Mensagens:  
+                  LEA  DX, MSGDEC
+                  MOV  AH,09
+                  INT  21H
+
+                  LEA  DX, MSGLSB
+                  MOV  AH,09
+                  INT  21H
+
+                  LEA  DX, MSGHEXA
+                  MOV  AH,09
+                  INT  21H
+
+                  LEA  DX, MSGENT
+                  MOV  AH,09
+                  INT  21H
+
+ESCOLHE_SAI PROC
+
+                  XOR  AL, AL
+                  CMP  AL,0
+                  JZ   Mensagens
+
+      ENTHEX1:    
+
+                  LEA  DX, MSGCONTROL
+                  MOV  AH,09
+                  INT  21h
+                  JMP  RETORNA
+      ENTLSB1:    
+
+                  LEA  DX, MSGCONTROL
+                  MOV  AH,09
+                  INT  21h
+                  JMP  RETORNA
+      ENTDEC1:    
+
+                  LEA  DX, MSGCONTROL
+                  MOV  AH,09
+                  INT  21h
+                  JMP  RETORNA
+
+      Error1:     
+                  LEA  DX, ERROINT
+                  MOV  AH,09
+                  INT  21H
+                  JMP  Mensagens1
+
+      Mensagens1: 
+                  LEA  DX, MSGDEC
+                  MOV  AH,09
+                  INT  21H
+
+                  LEA  DX, MSGLSB
+                  MOV  AH,09
+                  INT  21H
+
+                  LEA  DX, MSGHEXA
+                  MOV  AH,09
+                  INT  21H
+
+                  LEA  DX, MSGSAI
+                  MOV  AH,09
+                  INT  21H
+
+                  MOV  AH,1
+                  INT  21h
+                  CMP  AL, 30H
+                  JBE  Error1
+                  CMP  AL,33h
+                  JA   Error1
+                  JE   ENTHEX1
+                  CMP  AL,32h
+                  JE   ENTLSB1
+                  CMP  AL,31h
+                  JE   ENTDEC1
+                  
+      RETORNA1:   
+                  RET
