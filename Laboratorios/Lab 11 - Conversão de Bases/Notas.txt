@@ -77,3 +77,36 @@ ESCOLHE_SAI PROC
                   
       RETORNA1:   
                   RET
+
+                  LERDECIMAL PROC
+                    XOR  BX, BX
+                    XOR  AX,AX
+                    XOR CX,CX
+
+                    MOV  AH, 1
+    LerDec:         
+                    INT  21H
+                    MOV  BX,AX
+                    CMP  AL, 0DH            ; Verifica "Enter"
+                    JNE   LER_BINARIO
+    ConvertLSB:     
+                    AND  AL,0Fh
+                    MOV  BX, AX
+                    SHL  BX, 1              ; Multiplica BX por 2
+                    MOV  DX, BX
+                    SHL  BX, 2              ; Multiplica BX por 4 (2 + 8 = 10)
+                    ADD  BX, DX             ; Completa multiplicação por 10
+                    ADD  BX, AX             ; Adiciona o dígito ao acumulado
+    FIM_DEC:        
+                    RET
+LERDECIMAL ENDP
+
+ENTHEX:     
+                ESCOLHEBASE MSGHEXA, LER_HEXA
+                JMP         RETORNA
+    ENTLSBS:     
+                ESCOLHEBASE MSGLSB, SAI_BINARIO
+                JMP         RETORNAS
+    ENTDEC:     
+                ESCOLHEBASE MSGDEC, LER_DECIMAL
+                JMP         RETORNA

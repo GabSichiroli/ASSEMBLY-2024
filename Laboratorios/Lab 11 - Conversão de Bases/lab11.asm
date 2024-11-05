@@ -122,33 +122,15 @@ LER_BINARIO PROC
                   INT        21h
       LerLSB:     
                   CMP        AL,0Dh                              ;é CR?
-                  JE         ImprimirLSB                             ;se sim, termina o WHILE
+                  JE         RETORNA1
                   AND        AL,0Fh                              ;se não, elimina 30h do caractere
                   SHL        BX,1
                   OR         BL,AL
                   INT        21h                                 ;entra novo caractere
                   LOOP       LerLSB
-      ImprimirLSB:
-
-                  MOV        CX,16                               ;inicializa contador de bits
-                  MOV        AH,02h                              ;prepara para exibir no monitor
-      ;for 16 vezes do
-      PT1:        ROL        BX,1                                ;desloca BX 1 casa à esquerda
-      ;if CF = 1
-                  JNC        PT2                                 ;salta se CF = 0
-      ;then
-                  MOV        DL, 31h                             ;como CF = 1
-                  INT        21h                                 ;exibe na tela "1" = 31h
-                  JMP        PT3
-      ;else
-      PT2:        MOV        DL, 30h                             ;como CF = 0
-                  INT        21h                                 ;exibe na tela "0" = 30h
-      ;end_if
-      PT3:        LOOP       PT1                                 ;repete 16 vezes
-      ;end_for
-
-
+                  
       RETORNA1:   
+                  PUSH       BX
                   RET
 LER_BINARIO ENDP
 
@@ -180,6 +162,7 @@ ESCOLHE_SAI PROC
                   LEA        DX, MSGLSB
                   MOV        AH,09
                   INT        21h
+                  CALL       SAI_BINARIO
                   JMP        RETORNA
       ENTDECS:    
 
@@ -214,4 +197,28 @@ ESCOLHE_SAI PROC
                   RET
 
 ESCOLHE_SAI ENDP
+
+SAI_BINARIO PROC
+
+      POP BX
+
+      ImprimirLSB:
+                  MOV        CX,16                               ;inicializa contador de bits
+                  MOV        AH,02h                              ;prepara para exibir no monitor
+      PT1:        
+                  ROL        BX,1                                ;desloca BX 1 casa à esquerda
+                  JNC        PT2                                 ;salta se CF = 0
+                  MOV        DL, 31h                             ;como CF = 1
+                  INT        21h                                 ;exibe na tela "1" = 31h
+                  JMP        PT3
+      PT2:        
+                  MOV        DL, 30h                             ;como CF = 0
+                  INT        21h                                 ;exibe na tela "0" = 30h
+      PT3:        
+                  LOOP       PT1                                 ;repete 16 vezes
+
+
+                  RET
+
+SAI_BINARIO ENDP
 END MAIN
