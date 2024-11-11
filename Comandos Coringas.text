@@ -1,5 +1,10 @@
-Ler caracter:
+Imprimir caracter:
 
 OR         DL,30H                ; nUmero em caractere
 MOV        AH, 02H
 INT        21H
+
+MOV DL, BL
+        OR  DL,30H                ; nUmero em caractere
+        MOV AH, 02
+        INT 21H
