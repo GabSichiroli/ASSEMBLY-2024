@@ -26,6 +26,15 @@ IMPLOGO macro PART1,PART2,PART3,PART4,PART5,MSGPRIN
                 MOV AH,09
                 INT 21H
 ENDM
+Pula_linha macro
+                   PUSH AX
+                   PUSH DX
+                   MOV  AH,02
+                   MOV  DL,10
+                   INT  21H
+                   POP  DX
+                   POP  AX
+endm
 
 Controle_Programa macro CONTROLE
                           LEA DX, CONTROLE
@@ -33,27 +42,49 @@ Controle_Programa macro CONTROLE
                           INT 21H
 ENDM
 .DATA
-        MATRIZ       DW 0,0,0,0,0,0,1,1,1,0     ,     1,1,1,0,0,0,0,0,0,0
-                     DW 0,0,1,0,0,0,0,1,0,0     ,     0,0,0,0,1,0,0,0,0,0
-                     DW 0,0,1,0,0,0,0,0,0,0     ,     0,0,0,1,1,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,1,0,0     ,     0,0,0,0,1,0,1,1,0,0
-                     DW 0,0,0,0,0,0,0,1,1,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,1,0,0     ,     1,1,1,1,0,0,0,0,0,0
-                     DW 1,1,1,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,1,0,0
-                     DW 0,0,0,0,0,1,1,0,0,0     ,     1,1,0,0,0,0,0,1,1,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,1,0,0
-                     DW 1,1,1,1,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+        MATRIZTESTE  DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
+                     DB 1, 2, 3, 4, 5, 6, 7, 8, 9
 
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+
+        MATRIZ       DB 0,0,0,0,0,0,1,1,1,0     ,     1,1,1,0,0,0,0,0,0,0
+                     DB 0,0,1,0,0,0,0,1,0,0     ,     0,0,0,0,1,0,0,0,0,0
+                     DB 0,0,1,0,0,0,0,0,0,0     ,     0,0,0,1,1,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,1,0,0     ,     0,0,0,0,1,0,1,1,0,0
+                     DB 0,0,0,0,0,0,0,1,1,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,1,0,0     ,     1,1,1,1,0,0,0,0,0,0
+                     DB 1,1,1,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,1,0,0
+                     DB 0,0,0,0,0,1,1,0,0,0     ,     1,1,0,0,0,0,0,1,1,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,1,0,0
+                     DB 1,1,1,1,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                     DB 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
 
         VETOR        DB 10 DUP (0)
         ;Mensagens;
@@ -76,6 +107,8 @@ MAIN PROC
                       MOV               AX, @DATA
                       MOV               DS,AX
                       CALL              INICIAR
+                      CALL              PRINTMT
+        ;CALL              PRINTM
         ;Termina o programa
                       MOV               AH,4CH
                       INT               21H
@@ -86,7 +119,7 @@ INICIAR PROC
 
                       IMPLOGO           LOGO1, LOGO2, LOGO3, LOGO4, LOGO5, ENTMSG1
 
-                      MOV               CX, 3 
+                      MOV               CX, 3
                       XOR               BX,BX
                       XOR               DX,DX
                       MOV               AH,1
@@ -94,48 +127,80 @@ INICIAR PROC
         LerEnt:       
                       CMP               AL, 0DH
 
-                      JE                DivDerminadaM
+                      JE                CompENT
                       MOV               DL,AL
-                      AND               DL,0Fh                                            ;se não, elimina 30h do caractere
+                      SUB               DL,30H
                       ADD               BL, DL
                       INT               21h
                       LOOP              LerEnt
 
         CompENT:      
-                      CMP               BL, 4h
+                      CMP               BL, '4'
                       JB                RetornaEnt
 
         DivDerminadaM:
-                      MOV               AX, 4h
-                      DIV               BL
+                      MOV               AX, 04h
+                      DIV               BX
         CompQUA:      
-                      CMP               AH, 0h
+                      CMP               DX, '0'
                       JE                QUA4
-                      CMP               AH, 1h
+                      CMP               DX, '1'
                       JE                QUA1
-                      CMP               AH, 2h
+                      CMP               DX, '2'
                       JE                QUA2
-                      CMP               AH, 3h
+                      CMP               DX, '3'
                       JE                QUA3
-        QUA1:
+        QUA1:         
 
-        Controle_Programa MSGCONTROLE
-        JMP RetornaEnt
+                      Controle_Programa MSGCONTROLE
+                      JMP               RetornaEnt
 
-        QUA2:
+        QUA2:         
 
-        Controle_Programa MSGCONTROLE1
-        JMP RetornaEnt
-        QUA3:
+                      Controle_Programa MSGCONTROLE1
+                      JMP               RetornaEnt
+        QUA3:         
 
-        Controle_Programa MSGCONTROLE2
-        JMP RetornaEnt
-        QUA4:
+                      Controle_Programa MSGCONTROLE2
+                      JMP               RetornaEnt
+        QUA4:         
 
-        Controle_Programa MSGCONTROLE3
-        JMP RetornaEnt
+                      Controle_Programa MSGCONTROLE3
+                      JMP               RetornaEnt
 
         RetornaEnt:   
                       RET
 INICIAR ENDP
+PRINTMT PROC
+        ;Imprime o vetor que foi inserido depois o invertido
+        ;Entrada da varivel matriz
+        ;Não há saida
+                      pula_linha
+                      XOR               SI, SI                                            ; zera o índice da linha
+                      XOR               BX, BX                                            ; zera o índice da coluna
+                      MOV               CX,9
+                      JMP L1
+
+        RESTIMP:      
+                      XOR               BX, BX                                            ; zera o índice da coluna
+                      ADD               SI,4                                             ; Muda a linha
+                      MOV               CX,9                                             ;Volta o valor de cx para o loop
+                      CMP               SI,8
+                      JG               RETORNATEST
+        L1:
+                      pula_linha 
+                      MOV               AH, 02H
+        IMPRIMELINHA: 
+                      MOV               DL, MATRIZTESTE [SI][BX]                          ; coloca o elemento MATRIZ4X4[0,0] em AL
+                      OR                DL,30H                                            ; nUmero em caractere
+                      INT               21H
+                      INC               BX
+                      LOOP              IMPRIMELINHA
+                      JMP RESTIMP
+
+                                                                  ; Compara com o numero maximo de linhas se maior
+                      
+RETORNATEST:
+                      RET
+PRINTMT ENDP
 END MAIN

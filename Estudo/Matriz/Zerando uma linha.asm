@@ -44,6 +44,7 @@ L1:     MOV MATRIZ [BX][SI], 0      ;carrega na linha 3
 L2:
     XOR SI,SI     
     MOV CX,4                        ;CX contem o número de elementos de linha
+    
 L3:     MOV DX, MATRIZ [BX][SI]      ;carrega zero no operando calculado
         OR DL,30H                   ; nUmero em caractere
                            ; imprime a soma

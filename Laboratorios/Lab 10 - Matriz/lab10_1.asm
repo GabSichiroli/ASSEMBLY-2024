@@ -34,7 +34,6 @@ MAIN PROC
 
 MAIN ENDP
 PRINTM PROC
-    ;Imprime o vetor que foi inserido depois o invertido
     ;Entrada da varivel matriz
     ;Não há saida
             XOR        SI, SI                ; zera o índice da linha
