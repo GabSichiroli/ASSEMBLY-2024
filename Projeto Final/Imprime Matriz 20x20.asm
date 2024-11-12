@@ -67,8 +67,31 @@ ImprimeQUA macro VALORCOL,INCIALSI,INTEI,REGVALOR,MATRIZIMP
                  LOOP       IMPRIMELINHA
                  JMP        MudaLinha
     Retornaimp:  
-                 RET
 endm
+ZeraMatriz macro COLUNAI,LINHAI,NUMDREP,LINHAMAX,MATRIZZERA
+                 Local      PROXLinha
+                 Local      ZERALINHA
+                 Local      RetornaZera
+
+                 MOV        BX,COLUNAI
+                 MOV        SI,LINHAI
+                 MOV        CX,NUMDREP
+                 JMP        ZERALINHA
+    PROXLinha:   
+                 MOV        BX,COLUNAI            ; zera o índice da coluna
+                 ADD        SI,40                  ; Muda a linha
+                 MOV        CX,NUMDREP                  ;Volta o valor de cx para o loop
+                 CMP        SI,LINHAMAX
+                 JG         RetornaZera
+                 
+    ZERALINHA:
+                 MOV        MATRIZZERA [SI][BX],0    ; coloca o elemento MATRIZ4X4[0,0] em AL
+                 ADD        BX,2
+                 LOOP       ZERALINHA
+                 JMP        PROXLinha
+
+    RetornaZera:  
+    ENDM
 .DATA
     MATRIZ       DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
                  DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
@@ -129,7 +152,9 @@ INICIAR ENDP
 ZeraQua PROC
     pula_linha
     ImprimeQUA 0,0,20,760,MATRIZ
-    
+
+    ZeraMatriz 0,0,20,760,MATRIZ
+
     pula_linha
     ImprimeQUA 0,0,20,760,MATRIZ
 
