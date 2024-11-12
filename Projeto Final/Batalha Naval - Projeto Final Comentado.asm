@@ -184,7 +184,6 @@ INICIAR PROC
                       Controle_Programa MSGCONTROLE   
                       ImprimeQUA 0,0,360,MATRIZ
                       JMP               RetornaEnt
-
         QUA2:         
 
                       Controle_Programa MSGCONTROLE1

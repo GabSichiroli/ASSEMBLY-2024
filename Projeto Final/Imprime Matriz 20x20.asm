@@ -40,19 +40,20 @@ Pula_linha macro
                POP  DX
                POP  AX
 endm
-ImprimeQUA macro VALORCOL,REGVALOR,MATRIZIMP
+ImprimeQUA macro VALORCOL,INCIALSI,INTEI,REGVALOR,MATRIZIMP
                  Local      MudaLinha
                  Local      L1
                  Local      IMPRIMELINHA
                  Local      Retornaimp
+
                  MOV        BX,VALORCOL
-                 XOR        SI,SI                  ;Linha
-                 MOV        CX,10
+                 MOV        SI,INCIALSI
+                 MOV        CX,INTEI
                  JMP        L1
     MudaLinha:   
                  MOV        BX,VALORCOL            ; zera o índice da coluna
                  ADD        SI,40                  ; Muda a linha
-                 MOV        CX,10                  ;Volta o valor de cx para o loop
+                 MOV        CX,INTEI                 ;Volta o valor de cx para o loop
                  CMP        SI,REGVALOR
                  JG         Retornaimp
     L1:          
@@ -107,46 +108,31 @@ endm
 .CODE
 MAIN PROC
     ;Acesso ao DATA
-                         MOV        AX, @DATA
-                         MOV        DS,AX
+            MOV     AX, @DATA
+            MOV     DS,AX
 
-                         CALL       INICIAR
-                         CALL       IMPRIMEMATRIZINTEIRA
+            CALL    INICIAR
+            CALL    ZeraQua
 
     ;Termina o programa
-                         MOV        AH,4CH
-                         INT        21H
+            MOV     AH,4CH
+            INT     21H
 MAIN ENDP
 INICIAR PROC
-                         IMPLOGO    LOGO1, LOGO2, LOGO3, LOGO4, LOGO5, ENTMSG1
-                         MOV        AH,1
-                         INT        21h
-                         MOV        DL,AL
+            IMPLOGO LOGO1, LOGO2, LOGO3, LOGO4, LOGO5, ENTMSG1
+            MOV     AH,1
+            INT     21h
+            MOV     DL,AL
 
-                         RET
+            RET
 INICIAR ENDP
-IMPRIMEMATRIZINTEIRA PROC
-                         MOV        BX,20                                         ;Coluna
-                         XOR        SI,SI                                         ;Linha
-                         MOV        CX,10
-                         JMP        L1
-    MudaLinha:           
-                         MOV        BX,20                                         ; zera o índice da coluna
-                         ADD        SI,40                                         ; Muda a linha
-                         MOV        CX,10                                         ;Volta o valor de cx para o loop
-                         CMP        SI,360
-                         JG         Retornaimp
-    L1:                  
-                         pula_linha
-                         MOV        AH, 02H
-    IMPRIMELINHA:        
-                         MOV        DX, MATRIZ [SI][BX]                           ; coloca o elemento MATRIZ4X4[0,0] em AL
-                         OR         DL,30H                                        ; nUmero em caractere
-                         INT        21H
-                         ADD        BX,2
-                         LOOP       IMPRIMELINHA
-                         JMP        MudaLinha
-    Retornaimp:          
-                         RET
-IMPRIMEMATRIZINTEIRA ENDP
+ZeraQua PROC
+    pula_linha
+    ImprimeQUA 0,0,20,760,MATRIZ
+    
+    pula_linha
+    ImprimeQUA 0,0,20,760,MATRIZ
+
+    RET
+ZeraQua ENDP
 END MAIN
