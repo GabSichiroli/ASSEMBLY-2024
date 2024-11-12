@@ -42,28 +42,58 @@ Controle_Programa macro CONTROLE
                           MOV AH,09
                           INT 21H
 ENDM
-.DATA
-        MATRIZ       DW 0,0,0,0,0,0,1,1,1,0     ,     1,1,1,0,0,0,0,0,0,0
-                     DW 0,0,1,0,0,0,0,1,0,0     ,     0,0,0,0,1,0,0,0,0,0
-                     DW 0,0,1,0,0,0,0,0,0,0     ,     0,0,0,1,1,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,1,0,0     ,     0,0,0,0,1,0,1,1,0,0
-                     DW 0,0,0,0,0,0,0,1,1,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,1,0,0     ,     1,1,1,1,0,0,0,0,0,0
-                     DW 1,1,1,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,1,0,0
-                     DW 0,0,0,0,0,1,1,0,0,0     ,     1,1,0,0,0,0,0,1,1,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,1,0,0
-                     DW 1,1,1,1,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+ImprimeQUA macro VALORCOL,INCIALSI,REGVALOR,MATRIZIMP
+                 Local      MudaLinha
+                 Local      L1
+                 Local      IMPRIMELINHA
+                 Local      Retornaimp
 
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
-                     DW 0,0,0,0,0,0,0,0,0,0     ,     0,0,0,0,0,0,0,0,0,0
+                 MOV        BX,VALORCOL
+                 MOV        SI,INCIALSI
+                 MOV        CX,10
+                 JMP        L1
+    MudaLinha:   
+                 MOV        BX,VALORCOL            ; zera o índice da coluna
+                 ADD        SI,40                  ; Muda a linha
+                 MOV        CX,10                  ;Volta o valor de cx para o loop
+                 CMP        SI,REGVALOR
+                 JG         Retornaimp
+    L1:          
+                 pula_linha
+                 MOV        AH, 02H
+    IMPRIMELINHA:
+                 MOV        DX, MATRIZIMP [SI][BX]    ; coloca o elemento MATRIZ4X4[0,0] em AL
+                 OR         DL,30H                 ; nUmero em caractere
+                 INT        21H
+                 ADD        BX,2
+                 LOOP       IMPRIMELINHA
+                 JMP        MudaLinha
+    Retornaimp:  
+                 RET
+endm
+.DATA
+        MATRIZ   DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+                 DW 1,1,1,1,1,1,1,1,1,1     ,     2,2,2,2,2,2,2,2,2,2
+
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+                 DW 3,3,3,3,3,3,3,3,3,3     ,     4,4,4,4,4,4,4,4,4,4
+
 
         VETOR        DB 10 DUP (0)
         ;Mensagens;
@@ -125,15 +155,13 @@ INICIAR PROC
                       ADD               DL, 9
         CompENT:      
                       CMP               BL, 4
-                      JB                RetornaEnt
+                      JB                PulaParaFim
 
         DivDerminadaM:
                       MOV               AX, BX
                       MOV               BL, 4
                       DIV               BL
         CompQUA:      
-                      
-
                       CMP               AH, 1
                       JE                QUA1
 
@@ -141,26 +169,36 @@ INICIAR PROC
                       JE                QUA2
 
                       CMP               AH, 3
-                      JE                QUA3
+                      JE                QUAQ3
                       
                       CMP               AH, 0
-                      JE                QUA4
+                      JE                QUAQ4
+        PulaParaFim:
+        JMP RetornaEnt
+        QUAQ3:
+        JMP QUA3
+        QUAQ4:
+        JMP QUA4
         QUA1:         
 
-                      Controle_Programa MSGCONTROLE
+                      Controle_Programa MSGCONTROLE   
+                      ImprimeQUA 0,0,360,MATRIZ
                       JMP               RetornaEnt
 
         QUA2:         
 
                       Controle_Programa MSGCONTROLE1
+                      ImprimeQUA 20,0,360,MATRIZ
                       JMP               RetornaEnt
         QUA3:         
 
                       Controle_Programa MSGCONTROLE2
+                      ImprimeQUA 0,400,760,MATRIZ
                       JMP               RetornaEnt
         QUA4:         
 
                       Controle_Programa MSGCONTROLE3
+                      ImprimeQUA 20,400,760,MATRIZ
                       JMP               RetornaEnt
 
         RetornaEnt:   
