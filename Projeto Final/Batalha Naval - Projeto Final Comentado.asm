@@ -27,6 +27,16 @@ IMPLOGO macro PART1,PART2,PART3,PART4,PART5,MSGPRIN
                 INT 21H
 ENDM
 
+Pula_linha macro
+                   PUSH AX
+                   PUSH DX
+                   MOV  AH,02
+                   MOV  DL,10
+                   INT  21H
+                   POP  DX
+                   POP  AX
+endm
+
 Controle_Programa macro CONTROLE
                           LEA DX, CONTROLE
                           MOV AH,09
@@ -90,27 +100,28 @@ INICIAR PROC
                       XOR               BX,BX
                       XOR               DX,DX
                       MOV               AH,1
-                      INT               21h
+                      
 
         LerEnt:       
+                      INT               21h
                       CMP               AL, 0DH
                       JE                CompENT
-                      MOV               DL,AL                                         
+                      MOV               DL,AL
                       ADD               BL, DL
                    
-                      INT               21h 
-                        LOOP              LerEnt
+                      
+                      LOOP              LerEnt
                       CMP               DL, 39H
-                      JBE                MENOR 
+                      JBE               MENOR
                       CMP               DL,41H
                       JGE               MAIOR
                       
                       
                      
                       
-        MENOR:
-                 ADD DL, 30H
-        MAIOR:
+        MENOR:        
+                      ADD               DL, 30H
+        MAIOR:        
                       ADD               DL, 9
         CompENT:      
                       CMP               BL, 4
@@ -155,3 +166,4 @@ INICIAR PROC
         RetornaEnt:   
                       RET
 INICIAR ENDP
+END MAIN

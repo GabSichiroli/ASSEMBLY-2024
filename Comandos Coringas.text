@@ -8,3 +8,8 @@ MOV DL, BL
         OR  DL,30H                ; nUmero em caractere
         MOV AH, 02
         INT 21H
+        
+Espaço:
+MOV     DL, 020H
+MOV     AH,02
+INT     21h
